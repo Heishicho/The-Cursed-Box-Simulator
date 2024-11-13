@@ -98,13 +98,15 @@ input[type="checkbox"] {
 .centered-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; 
     justify-content: center;
     margin-top: 20px;
+    width: 100%; 
 }
 
 textarea {
     width: 100%;
+    max-width: 600px; 
     border: 2px solid #ddd;
     border-radius: 5px;
     padding: 10px;
@@ -112,3 +114,4 @@ textarea {
     resize: none;
     margin-top: 15px;
 }
+
