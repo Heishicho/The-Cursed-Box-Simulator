@@ -1,75 +1,3 @@
-// Items list (same as before, copy the full list)
-const items = [
-    { name: "Vegan Deep Fried Bird Leg", value: 50, chance: 3 },
-    { name: "Delicious Gingerbread Bird Cookie", value: 50, chance: 3 },
-    { name: "Nani's Valentine's Day Chocolate", value: 50, chance: 3 },
-    { name: "Nani's Special Valentine's Day Chocolate", value: 50, chance: 3 },
-    { name: "Astroberry Cheesecake", value: 50, chance: 3 },
-    { name: "Astroberry Parfait", value: 50, chance: 3 },
-    { name: "Complete Recovery Potion", value: 50, chance: 4.75962 },
-    { name: "Quantum Tiramisu", value: 50, chance: 3 },
-    { name: "Quantum Latte", value: 50, chance: 3 },
-    { name: "Soft Ice Cream", value: 50, chance: 3 },
-    { name: "hmemborgar", value: 50, chance: 3 },
-    { name: "Exotic Bubble Tea", value: 50, chance: 3 },
-    { name: "Hermit Cr... Avocado Sushi", value: 50, chance: 3 },
-    { name: "Baal Mithai", value: 50, chance: 3 },
-    { name: "Hallowed Lollipop", value: 50, chance: 3 },
-    { name: "Bloody Pumpkin Pie", value: 50, chance: 2.5 },
-    { name: "Raider's Brain", value: 50, chance: 3 },
-    { name: "Wedding Cake (25)", value: 25, chance: 3 },
-    { name: "Wedding Cake (50)", value: 50, chance: 1.75 },
-    { name: "Wedding Cake (75)", value: 75, chance: 0.9 },
-    { name: "Fighter Potion (10)", value: 10, chance: 2.5 },
-    { name: "Fighter Potion (25)", value: 25, chance: 1.25 },
-    { name: "Fighter Potion (50)", value: 50, chance: 0.75 },
-    { name: "Giant Stone Apple (25)", value: 25, chance: 2.5 },
-    { name: "Giant Stone Apple (50)", value: 50, chance: 1.25 },
-    { name: "Giant Stone Apple (75)", value: 75, chance: 0.75 },
-    { name: "Special Elrios Pass Potion (25)", value: 25, chance: 2.5 },
-    { name: "Special Elrios Pass Potion (50)", value: 50, chance: 1.35 },
-    { name: "Special Elrios Pass Potion (75)", value: 75, chance: 0.85 },
-    { name: "El's Essence", value: 250, chance: 3 },
-    { name: "El Resonance Potion (x500 Concentrate) (5)", value: 5, chance: 3.5 },
-    { name: "El Resonance Potion (x500 Concentrate) (10)", value: 10, chance: 3 },
-    { name: "El Resonance Potion (x500 Concentrate) (15)", value: 15, chance: 2.5 },
-    { name: "Elite Growth Elixir (200%) (5)", value: 5, chance: 2 },
-    { name: "Tenebrous Aura (100)", value: 100, chance: 2 },
-    { name: "Tenebrous Aura (200)", value: 200, chance: 1 },
-    { name: "Tenebrous Aura (300)", value: 300, chance: 0.5 },
-    { name: "Imprint Swap Stone", value: 0, chance: 0.1 },
-    { name: "Master Class Change Package", value: 0, chance: 0.01 },
-    { name: "Giant Ventus' Wings (Elixir) (10)", value: 10, chance: 2 },
-    { name: "Heavenly Dessert Party (10)", value: 10, chance: 2 },
-    { name: "Code of Honor", value: 0, chance: 0.2 },
-    { name: "Mark of Alliance", value: 0, chance: 0.2 },
-    { name: "Baryon's Fur Ornament", value: 0, chance: 0.2 },
-    { name: "Engine Cooling System", value: 0, chance: 0.2 },
-    { name: "Varnimyr Region Accessory Select Cube", value: 0, chance: 0.1 },
-    { name: "Pruinaum Region Accessory Select Cube", value: 0, chance: 0.1 },
-    { name: "Abyss Support Selection Cube", value: 0, chance: 0.07 },
-    { name: "Guild Banner Point", value: 0, chance: 1 },
-    { name: "Guild Honor Point Scroll", value: 0, chance: 0.2 },
-    { name: "Mysterious Pet Fruit (5)", value: 5, chance: 2 },
-    { name: "Mysterious Pet Fruit (7)", value: 7, chance: 1.2 },
-    { name: "Mysterious Pet Fruit (10)", value: 10, chance: 0.9699697 },
-    { name: "Tenebrous Effect Select Ticket", value: 0, chance: 0.1 },
-    { name: "Cosmic Rift Dust (1000)", value: 1000, chance: 0.1 },
-    { name: "Cosmic Rift Dust (2000)", value: 2000, chance: 0.07 },
-    { name: "Cosmic Rift Dust (3000)", value: 3000, chance: 0.021 },
-    { name: "Cosmic Rift Dust (5000)", value: 5000, chance: 0.007 },
-    { name: "Golden Fishing Rod", value: 0, chance: 0.01 },
-    { name: "Attack of Steel Machines", value: 0, chance: 0.0002 },
-    { name: "Natural Flow", value: 0, chance: 0.0002 },
-    { name: "Freed Shadow", value: 0, chance: 0.002 },
-    { name: "The Setting Sun", value: 0, chance: 0.006 },
-    { name: "Sealer of Plegas", value: 0, chance: 0.002 },
-    { name: "Tenebrous Reforge Amulet Lv.18", value: 0, chance: 0.02 },
-    { name: "Tenebrous Reforge Amulet Lv.21", value: 0, chance: 0.002 },
-    { name: "Elrios Pass Magic Amulet Lv.11", value: 0, chance: 0.00001 },
-    { name: "Elrios Pass Magic Amulet Lv.12", value: 0, chance: 0.0000001 }
-];
-
 // Track opened boxes and ED cost
 let totalBoxesOpened = 0;
 let totalEdCost = 0;
@@ -181,7 +109,7 @@ function updateUI(items) {
     document.getElementById("total-boxes").textContent = `Total Boxes Opened: ${totalBoxesOpened}`;
 }
 
-// Start rolling for a selected item until it is rolled (rolling 100,000 items at a time)
+// Start rolling for a selected item until it is rolled
 let rollingInterval;
 function startRollingForItem() {
     const targetItemName = document.getElementById("item-select").value;
@@ -194,51 +122,42 @@ function startRollingForItem() {
     // Variable to track number of rolls
     let rollCount = 0;
 
-    // Initialize the batch size (100,000 rolls per interval)
-    const batchSize = 100000;
-    
-    // Store rolled items in an array
+    // Store rolled items in an array for logging
     let rolledItems = [];
 
     // Speed up the rolling process by reducing the interval to 1 ms (almost instant)
     rollingInterval = setInterval(() => {
-        // Simulate 100,000 rolls (no display, just store the items)
-        for (let i = 0; i < batchSize; i++) {
-            rolledItem = selectRandomItem();
-            rolledItems.push(rolledItem);
+        // Simulate a roll (one box per interval)
+        rolledItem = selectRandomItem();
+        rolledItems.push(rolledItem);
 
-            // Increment the total boxes opened and ED cost for each roll
-            totalBoxesOpened += boxesPerRoll;
-            totalEdCost += edCostPerRoll;
-        }
+        // Increment the total boxes opened and ED cost for each roll
+        totalBoxesOpened += boxesPerRoll;
+        totalEdCost += edCostPerRoll;
 
         // Update the total boxes and ED cost in the UI
         document.getElementById("total-boxes").textContent = `Total Boxes Opened: ${totalBoxesOpened}`;
         document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
 
-        // After 100,000 rolls, process the history log and stop the rolling
-        if (rolledItems.length >= batchSize) {
-            // Find the first occurrence of the target item
-            const targetRollIndex = rolledItems.findIndex(item => item.name === targetItemName);
+        // Update the history log with every item rolled
+        updateHistoryLog(rolledItem);
 
-            // If the target item was rolled
-            if (targetRollIndex !== -1) {
-                // Log only the 2nd item out of 100,000 rolls or others depending on the find index
-                let logMessage = `${targetRollIndex + 1}/${batchSize} rolled: ${rolledItems[targetRollIndex].name}`;
+        // Check if the selected item is found
+        if (rolledItem.name === targetItemName) {
+            // Log the successful roll of the selected item
+            document.getElementById("historyLog").value += `\nTarget Item Found: ${rolledItem.name} rolled after ${rollCount + 1} rolls\n`;
 
-                // Append the log message to the history log (ignoring all other items)
-                document.getElementById("historyLog").value += logMessage + "\n";
-
-                // Clear the interval after target item is found
-                clearInterval(rollingInterval);
-                console.log(`Rolled the target item: ${targetItemName}`);
-            } else {
-                // If no target item, update the history log for the batch and stop
-                document.getElementById("historyLog").value += `No ${targetItemName} rolled in this batch\n`;
-                clearInterval(rollingInterval);
-            }
+            // Clear the interval after the target item is found
+            clearInterval(rollingInterval);
+            console.log(`Rolled the target item: ${targetItemName}`);
         }
+
+        rollCount++;  // Increment the roll count
     }, 1);  // Speed up the rolling by setting the interval to 1 ms (very fast)
 }
 
-
+// Update the history log with the rolled item
+function updateHistoryLog(item) {
+    const historyLog = document.getElementById("historyLog");
+    historyLog.value += `${item.name} - ED Cost: ${totalEdCost.toLocaleString()}\n`;
+}
