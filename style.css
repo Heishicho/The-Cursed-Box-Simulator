@@ -5,13 +5,14 @@ body {
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
-    height: 100vh;
-    overflow: hidden; /* Prevents full page overflow */
+    height: 100vh; /* Full viewport height */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    overflow: hidden; /* Prevents full page overflow */
 }
 
+/* Main container for content */
 .container {
     max-width: 600px;
     width: 100%;
@@ -25,6 +26,7 @@ body {
     text-align: center;
 }
 
+/* Button Styling */
 button {
     padding: 12px 25px;
     margin: 10px 0;
@@ -43,6 +45,7 @@ button:hover {
     background-color: #1976D2;
 }
 
+/* Item Select Box Styling */
 #item-select {
     padding: 10px 15px;
     font-size: 16px;
@@ -58,12 +61,14 @@ button:hover {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Focus state for item select */
 #item-select:focus {
     outline: none;
     border-color: #2196F3;
     box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
 }
 
+/* Grid layout for items */
 #item-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
@@ -73,6 +78,7 @@ button:hover {
     overflow-y: auto; /* Adds scroll if needed */
 }
 
+/* Individual item styling */
 #item-container .item {
     display: flex;
     flex-direction: column;
@@ -86,11 +92,13 @@ button:hover {
     color: #555;
 }
 
+/* Checkbox Styling */
 input[type="checkbox"] {
     margin-top: 10px;
     margin-right: 10px;
 }
 
+/* Form element styling */
 .form-element {
     display: block;
     margin: 10px 0;
@@ -101,6 +109,7 @@ input[type="checkbox"] {
     margin: 10px 0;
 }
 
+/* Centered form styling */
 .centered-form {
     display: flex;
     flex-direction: column;
@@ -110,6 +119,7 @@ input[type="checkbox"] {
     width: 100%; 
 }
 
+/* Textarea styling */
 textarea {
     width: 100%;
     max-width: 500px;
