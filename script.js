@@ -161,7 +161,7 @@ function updateUI(items) {
         historyLog.value += `${itemName} - Rolls: ${itemCounts[itemName]}\n`; // Append to the textarea
     });
 
-    // Update total ED cost
-    document.getElementById("total-ed-cost").textContent = `Total ED cost: ${totalEdCost.toLocaleString()}`;
-    document.getElementById("total-boxes").textContent = `Total boxes opened: ${totalBoxesOpened}`;
+    // Update total ED cost and boxes opened
+    document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
+    document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened}`;
 }
