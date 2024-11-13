@@ -77,7 +77,7 @@ let itemCounts = {};
 
 // Load image for each item
 function loadImage(itemName) {
-    const fileName = itemName.replace(/\s+/g, '_').toLowerCase() + ".png";
+    const fileName = itemName + ".png";  // Use the exact name with .png extension
     return `images/${fileName}`;
 }
 
