@@ -9,10 +9,18 @@
 <body>
     <div class="container">
         <h1>The Cursed Box Simulator</h1>
+        
+        <!-- Display total boxes opened and ED cost -->
         <p id="total-boxes">Boxes Opened: 0</p>
         <p id="total-ed-cost">Total ED Cost: 0</p>
+        
+        <!-- Buttons for opening boxes -->
         <button onclick="openBox()">Keep Using</button>
         <button onclick="openBox25()">Keep Using x25</button>
+        
+        <!-- Checkbox to toggle image loading -->
+        <label for="load-images">Load Images</label>
+        <input type="checkbox" id="load-images" checked> <!-- Default checked to load images -->
         
         <!-- Item Container: Used for displaying selected items -->
         <div id="item-container"></div>
@@ -22,6 +30,7 @@
         <!-- Textarea for History Log -->
         <textarea id="historyLog" readonly rows="10"></textarea>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
