@@ -181,7 +181,7 @@ function updateUI(items) {
     document.getElementById("total-boxes").textContent = `Total Boxes Opened: ${totalBoxesOpened}`;
 }
 
-// Start rolling for a selected item until it is rolled
+// Start rolling for a selected item until it is rolled (rolling 100,000 items at a time)
 let rollingInterval;
 function startRollingForItem() {
     const targetItemName = document.getElementById("item-select").value;
@@ -194,25 +194,49 @@ function startRollingForItem() {
     // Variable to track number of rolls
     let rollCount = 0;
 
+    // Initialize the batch size (100,000 rolls per interval)
+    const batchSize = 100000;
+    
+    // Store rolled items in an array
+    let rolledItems = [];
+
     // Speed up the rolling process by reducing the interval to 1 ms (almost instant)
     rollingInterval = setInterval(() => {
-        rolledItem = selectRandomItem();
-        updateUI([rolledItem]);
+        // Simulate 100,000 rolls (no display, just store the items)
+        for (let i = 0; i < batchSize; i++) {
+            rolledItem = selectRandomItem();
+            rolledItems.push(rolledItem);
 
-        // Increment the total boxes opened and ED cost for each roll
-        totalBoxesOpened += boxesPerRoll;
-        totalEdCost += edCostPerRoll;
+            // Increment the total boxes opened and ED cost for each roll
+            totalBoxesOpened += boxesPerRoll;
+            totalEdCost += edCostPerRoll;
+        }
 
         // Update the total boxes and ED cost in the UI
         document.getElementById("total-boxes").textContent = `Total Boxes Opened: ${totalBoxesOpened}`;
         document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
 
-        rollCount++; // Increment roll count
+        // After 100,000 rolls, process the history log and stop the rolling
+        if (rolledItems.length >= batchSize) {
+            // Find the first occurrence of the target item
+            const targetRollIndex = rolledItems.findIndex(item => item.name === targetItemName);
 
-        // Stop the interval if we've rolled the target item or reached a certain roll count
-        if (rolledItem.name === targetItemName || rollCount >= 1000000) {
-            clearInterval(rollingInterval);  // Stop rolling after a large number of fast rolls
-            console.log(`Rolled the target item: ${targetItemName}`);
+            // If the target item was rolled
+            if (targetRollIndex !== -1) {
+                // Log only the 2nd item out of 100,000 rolls or others depending on the find index
+                let logMessage = `${targetRollIndex + 1}/${batchSize} rolled: ${rolledItems[targetRollIndex].name}`;
+
+                // Append the log message to the history log (ignoring all other items)
+                document.getElementById("historyLog").value += logMessage + "\n";
+
+                // Clear the interval after target item is found
+                clearInterval(rollingInterval);
+                console.log(`Rolled the target item: ${targetItemName}`);
+            } else {
+                // If no target item, update the history log for the batch and stop
+                document.getElementById("historyLog").value += `No ${targetItemName} rolled in this batch\n`;
+                clearInterval(rollingInterval);
+            }
         }
     }, 1);  // Speed up the rolling by setting the interval to 1 ms (very fast)
 }
