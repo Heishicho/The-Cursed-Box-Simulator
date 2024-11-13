@@ -135,18 +135,23 @@ function updateUI(items) {
 
     items.forEach(item => {
         const itemDiv = document.createElement("div");
+        itemDiv.classList.add("item");  // Add the "item" class here to apply the flex column style
+        
         const itemImage = document.createElement("img");
         itemImage.src = loadImage(item.name);
+        
+        const itemName = document.createElement("p");
+        itemName.textContent = item.name;
+        itemName.classList.add("small-item-name");  // Apply the small-item-name class if needed
+
+        // Append image and item name to the div
         itemDiv.appendChild(itemImage);
+        itemDiv.appendChild(itemName);
 
-        // Create a span for item name and apply the CSS class
-        const itemNameText = document.createElement("span");
-        itemNameText.textContent = item.name;
-        itemNameText.classList.add("small-item-name");  // Add class for small text
-
-        itemDiv.appendChild(itemNameText);
+        // Append the div to the container
         itemContainer.appendChild(itemDiv);
 
+        // Track item counts
         if (!itemCounts[item.name]) {
             itemCounts[item.name] = 0;
         }
@@ -167,6 +172,6 @@ function updateUI(items) {
     });
 
     // Update total ED cost
-    document.getElementById("total-ed-cost").textContent = `Total ED cost: ${totalEdCost.toLocaleString()}`;
+    document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
     document.getElementById("total-boxes").textContent = `Total Boxes Opened: ${totalBoxesOpened}`;
 }
