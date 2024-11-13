@@ -75,8 +75,16 @@ let totalBoxesOpened = 0;
 let totalEdCost = 0;
 let itemCounts = {};
 
-// Load image for each item
+// Load image for each item (check if images should be loaded)
 function loadImage(itemName) {
+    // Get the checkbox state
+    const loadImagesChecked = document.getElementById('load-images').checked;
+
+    // If the checkbox is unchecked, return a blank string to prevent image loading
+    if (!loadImagesChecked) {
+        return '';  // No image will be loaded
+    }
+
     let fileName;
 
     // Handle special case for "Elite Growth Elixir (200%) (5)"
@@ -138,7 +146,10 @@ function updateUI(items) {
         itemDiv.classList.add("item");  // Add the "item" class here to apply the flex column style
         
         const itemImage = document.createElement("img");
-        itemImage.src = loadImage(item.name);
+        const imagePath = loadImage(item.name);  // Load image based on checkbox state
+        if (imagePath) {  // Only add image if imagePath is not empty
+            itemImage.src = imagePath;
+        }
         
         const itemName = document.createElement("p");
         itemName.textContent = item.name;
