@@ -168,5 +168,5 @@ function updateUI(items) {
 
     // Update total ED cost
     document.getElementById("total-ed-cost").textContent = `Total ED cost: ${totalEdCost.toLocaleString()}`;
-    document.getElementById("total-boxes").textContent = `Total boxes opened: ${totalBoxesOpened}`;
+    document.getElementById("total-boxes").textContent = `Total Boxes Opened: ${totalBoxesOpened}`;
 }
