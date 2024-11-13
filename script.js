@@ -128,7 +128,7 @@ function selectRandomItem() {
 // Update the UI with the selected items and costs
 function updateUI(items) {
     const itemContainer = document.getElementById("item-container");
-    const historyContainer = document.getElementById("history-container");
+    const historyLog = document.getElementById("historyLog"); // Use historyLog
 
     // Clear current item display
     itemContainer.innerHTML = "";
@@ -154,16 +154,14 @@ function updateUI(items) {
         .map(entry => entry[0]); // Get the item names sorted by the roll count
 
     // Clear the history container before updating it
-    historyContainer.innerHTML = "";
+    historyLog.value = ""; // Clear the textarea before updating
 
     // Update the history container with sorted items
     sortedItems.forEach(itemName => {
-        const historyDiv = document.createElement("div");
-        historyDiv.textContent = `${itemName} - Rolls: ${itemCounts[itemName]}`;
-        historyContainer.appendChild(historyDiv);
+        historyLog.value += `${itemName} - Rolls: ${itemCounts[itemName]}\n`; // Append to the textarea
     });
 
     // Update total ED cost
-    document.getElementById("edCost").textContent = `Total ED cost: ${totalEdCost.toLocaleString()}`;
-    document.getElementById("boxCount").textContent = `Total boxes opened: ${totalBoxesOpened}`;
+    document.getElementById("total-ed-cost").textContent = `Total ED cost: ${totalEdCost.toLocaleString()}`;
+    document.getElementById("total-boxes").textContent = `Total boxes opened: ${totalBoxesOpened}`;
 }
