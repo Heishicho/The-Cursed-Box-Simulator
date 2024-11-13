@@ -129,8 +129,21 @@ function updateUI(result) {
     const edCost = document.getElementById("edCost");
     const historyLog = document.getElementById("historyLog");
 
-    // Update single item or grid
+    // Check if the result is an array (for multiple items) or a single item
     if (Array.isArray(result)) {
+        // Loop through each rolled item and update the history log
+        result.forEach(item => {
+            // Track item roll count
+            if (!itemCounts[item.name]) {
+                itemCounts[item.name] = 0; // Initialize the count if not yet set
+            }
+            itemCounts[item.name]++; // Increment the roll count
+
+            // Update the history log with the item name, chance, and count
+            historyLog.value += `${item.name} rolled ${item.chance}% - Rolled ${itemCounts[item.name]} times\n`;
+        });
+
+        // Update the grid with images for all 25 items
         document.getElementById("itemGrid").innerHTML = result.map(item => `
             <div>
                 <img src="${loadImage(item.name)}" alt="${item.name}">
@@ -138,9 +151,10 @@ function updateUI(result) {
             </div>
         `).join('');
     } else {
+        // Update the history log for a single item roll
         itemLabel.textContent = `Rolled: ${result.name} (${result.chance}%)`;
         itemImage.src = loadImage(result.name);
-        
+
         // Track item roll count
         if (!itemCounts[result.name]) {
             itemCounts[result.name] = 0; // Initialize the count if not yet set
