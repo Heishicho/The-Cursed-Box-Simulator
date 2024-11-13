@@ -1,4 +1,3 @@
-// Items list (same as before, copy the full list)
 const items = [
     { name: "Vegan Deep Fried Bird Leg", value: 50, chance: 3 },
     { name: "Delicious Gingerbread Bird Cookie", value: 50, chance: 3 },
@@ -70,12 +69,10 @@ const items = [
     { name: "Elrios Pass Magic Amulet Lv.12", value: 0, chance: 0.0000001 }
 ];
 
-// Track opened boxes and ED cost
 let totalBoxesOpened = 0;
 let totalEdCost = 0;
 let itemCounts = {};
 
-// Populate the dropdown with items
 const itemSelect = document.getElementById("item-select");
 items.forEach(item => {
     const option = document.createElement("option");
@@ -84,41 +81,32 @@ items.forEach(item => {
     itemSelect.appendChild(option);
 });
 
-// Load image for each item
 function loadImage(itemName) {
     const loadImagesChecked = document.getElementById('load-images').checked;
+    if (!loadImagesChecked) return ''; 
 
-    if (!loadImagesChecked) {
-        return '';  // No image will be loaded
-    }
-
-    let fileName = itemName + ".png";
-
-    // Handle exceptions for special file names
+    let fileName = `${itemName}.png`;
     if (itemName === "Elite Growth Elixir (200%) (5)") {
         fileName = "elite_growth_elixir_200_5.png";
     }
 
-    return images/${fileName};
+    return `images/${fileName}`;
 }
 
-// Open one box
 function openBox() {
     totalBoxesOpened++;
     totalEdCost += 4400000;
     const selectedItem = selectRandomItem();
-    updateUI([selectedItem]); // Pass the selected item as an array
+    updateUI([selectedItem]);
 }
 
-// Open 25 boxes
 function openBox25() {
     totalBoxesOpened += 25;
     totalEdCost += 4400000 * 25;
     const results = Array.from({ length: 25 }, selectRandomItem);
-    updateUI(results); // Pass the results as an array of items
+    updateUI(results);
 }
 
-// Random item selection based on chances
 function selectRandomItem() {
     const totalWeight = items.reduce((sum, item) => sum + item.chance, 0);
     const randomWeight = Math.random() * totalWeight;
@@ -132,12 +120,9 @@ function selectRandomItem() {
     }
 }
 
-// Update the UI with the selected items and costs
 function updateUI(items) {
     const itemContainer = document.getElementById("item-container");
     const historyLog = document.getElementById("historyLog");
-
-    // Clear current item display
     itemContainer.innerHTML = "";
 
     items.forEach(item => {
@@ -148,6 +133,7 @@ function updateUI(items) {
         const imagePath = loadImage(item.name);
         if (imagePath) {
             itemImage.src = imagePath;
+            itemImage.alt = item.name;
         }
 
         const itemName = document.createElement("p");
@@ -158,30 +144,23 @@ function updateUI(items) {
         itemDiv.appendChild(itemName);
         itemContainer.appendChild(itemDiv);
 
-        // Track item counts
-        if (!itemCounts[item.name]) {
-            itemCounts[item.name] = 0;
-        }
+        if (!itemCounts[item.name]) itemCounts[item.name] = 0;
         itemCounts[item.name]++;
     });
 
-    // Sort the items by number of rolls
     const sortedItems = Object.entries(itemCounts)
         .sort((a, b) => b[1] - a[1])
         .map(entry => entry[0]);
 
-    // Update history log
     historyLog.value = "";
     sortedItems.forEach(itemName => {
-        historyLog.value += ${itemName} - Rolls: ${itemCounts[itemName]}\n;
+        historyLog.value += `${itemName} - Rolls: ${itemCounts[itemName]}\n`;
     });
 
-    // Update total ED cost
-    document.getElementById("total-ed-cost").textContent = Total ED Cost: ${totalEdCost.toLocaleString()};
-    document.getElementById("total-boxes").textContent = Boxes Opened: ${totalBoxesOpened};
+    document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
+    document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened}`;
 }
 
-// Start rolling for a selected item until it is rolled
 let rollingInterval;
 function startRollingForItem() {
     const targetItemName = document.getElementById("item-select").value;
@@ -194,13 +173,13 @@ function startRollingForItem() {
         totalBoxesOpened++;
         totalEdCost += 4400000;
 
-        document.getElementById("total-boxes").textContent = Boxes Opened: ${totalBoxesOpened};
-        document.getElementById("total-ed-cost").textContent = Total ED Cost: ${totalEdCost.toLocaleString()};
+        document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened}`;
+        document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
 
         rollCount++;
         if (rolledItem.name === targetItemName || rollCount >= 1000000) {
             clearInterval(rollingInterval);
-            console.log(Rolled the target item: ${targetItemName});
+            console.log(`Rolled the target item: ${targetItemName}`);
         }
-    }, 1);  // Fast rolling with a 1 ms interval
+    }, 1);
 }
