@@ -164,22 +164,36 @@ function updateUI(items) {
 let rollingInterval;
 function startRollingForItem() {
     const targetItemName = document.getElementById("item-select").value;
-    let rollCount = 0;
+    
+    // Clear previous counts
+    totalBoxesOpened = 0;
+    totalEdCost = 0;
+    itemCounts = {};
 
     rollingInterval = setInterval(() => {
-        const rolledItem = selectRandomItem();
-        updateUI([rolledItem]);
+        // Roll 25 items at once to reduce UI updates
+        const rolledItems = Array.from({ length: 25 }, selectRandomItem);
+        totalBoxesOpened += 25;
+        totalEdCost += 4400000 * 25;
 
-        totalBoxesOpened++;
-        totalEdCost += 4400000;
+        // Update item counts
+        rolledItems.forEach(item => {
+            if (!itemCounts[item.name]) itemCounts[item.name] = 0;
+            itemCounts[item.name]++;
+        });
 
+        // Update the UI after every batch of 25 rolls
+        updateUI(rolledItems);
+
+        // Update the total counts in the DOM
         document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened}`;
         document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
 
-        rollCount++;
-        if (rolledItem.name === targetItemName || rollCount >= 1000000) {
+        // Check if the target item was rolled
+        if (rolledItems.some(item => item.name === targetItemName)) {
             clearInterval(rollingInterval);
-            console.log(`Rolled the target item: ${targetItemName}`);
+            console.log(`Target item "${targetItemName}" found after ${totalBoxesOpened} boxes!`);
+            alert(`Target item "${targetItemName}" found after ${totalBoxesOpened} boxes!`);
         }
-    }, 1);
+    }, 1); // Rolling every millisecond (adjust as needed for performance)
 }
