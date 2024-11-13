@@ -84,11 +84,11 @@ function loadImage(itemName) {
         fileName = "elite_growth_elixir_200_5.png";  // Simpler file name
     } else {
         // For other items, use the item name as is, or modify if necessary
-        fileName = itemName + ".png";
+        fileName = itemName.replace(/[^a-zA-Z0-9]/g, "_") + ".png";  // Replace spaces/special chars with underscores
     }
 
     // Return the path to the image
-    const filePath = images/${fileName};
+    const filePath = `images/${fileName}`;
     console.log(filePath);  // Check the generated path in the console
     return filePath;
 }
@@ -159,11 +159,11 @@ function updateUI(items) {
     // Update the history container with sorted items
     sortedItems.forEach(itemName => {
         const historyDiv = document.createElement("div");
-        historyDiv.textContent = ${itemName} - Rolls: ${itemCounts[itemName]};
+        historyDiv.textContent = `${itemName} - Rolls: ${itemCounts[itemName]}`;
         historyContainer.appendChild(historyDiv);
     });
 
     // Update total ED cost
-    document.getElementById("total-ed-cost").textContent = Total ED cost: ${totalEdCost.toLocaleString()};
-    document.getElementById("total-boxes").textContent = Total boxes opened: ${totalBoxesOpened};
+    document.getElementById("edCost").textContent = `Total ED cost: ${totalEdCost.toLocaleString()}`;
+    document.getElementById("boxCount").textContent = `Total boxes opened: ${totalBoxesOpened}`;
 }
