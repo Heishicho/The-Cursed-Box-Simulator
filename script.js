@@ -92,7 +92,7 @@ function loadImage(itemName) {
         return '';  // No image will be loaded
     }
 
-    let fileName = itemName.toLowerCase() + ".png";
+    let fileName = itemName + ".png";
 
     // Handle exceptions for special file names
     if (itemName === "Elite Growth Elixir (200%) (5)") {
