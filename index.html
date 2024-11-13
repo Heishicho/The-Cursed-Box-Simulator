@@ -22,6 +22,15 @@
         <label for="load-images">Load Images</label>
         <input type="checkbox" id="load-images" checked> <!-- Default checked to load images -->
         
+        <!-- Item selection dropdown -->
+        <label for="item-select">Select Item to Roll For: </label>
+        <select id="item-select">
+            <!-- Options will be dynamically populated -->
+        </select>
+
+        <!-- Button to start rolling for selected item -->
+        <button onclick="startRollingForItem()">Roll Until Selected Item</button>
+
         <!-- Item Container: Used for displaying selected items -->
         <div id="item-container"></div>
 
