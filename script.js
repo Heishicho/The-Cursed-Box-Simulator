@@ -167,19 +167,19 @@ function updateUI(items) {
     document.getElementById("total-revenue").textContent = `Total Revenue: ${totalRevenue.toLocaleString()}`;
 
     // Calculate profit or loss
-    const profitLoss = totalRevenue - totalEdCost;
-    const profitLossElement = document.getElementById("profit-loss");
+const profitLoss = totalRevenue - totalEdCost;
+const profitLossElement = document.getElementById("profit-loss");
 
-    // Format profit or loss with commas
-    const formattedProfitLoss = profitLoss.toLocaleString();
+// Format profit or loss with commas
+let formattedProfitLoss = profitLoss.toLocaleString();
 
-    // Set the text and color for profit/loss
-    if (profitLoss >= 0) {
-        profitLossElement.textContent = `Profit/Loss: +${formattedProfitLoss}`;
-        profitLossElement.style.color = 'green'; // Profit is green
-    } else {
-        profitLossElement.textContent = `Profit/Loss: -${formattedProfitLoss}`;
-        profitLossElement.style.color = 'red'; // Loss is red
+// Set the text and color for profit/loss
+if (profitLoss >= 0) {
+    profitLossElement.textContent = `Profit/Loss: +${formattedProfitLoss}`;
+    profitLossElement.style.color = 'green'; // Profit is green
+} else {
+    profitLossElement.textContent = `Profit/Loss: ${formattedProfitLoss}`;  // No need for another negative sign
+    profitLossElement.style.color = 'red'; // Loss is red
     }
 }
 
