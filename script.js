@@ -79,17 +79,17 @@ let itemCounts = {};
 function loadImage(itemName) {
     let fileName;
 
-    // Handle specific case for "Elite Growth Elixir (200%) (5)"
+    // Handle special case for "Elite Growth Elixir (200%) (5)"
     if (itemName === "Elite Growth Elixir (200%) (5)") {
         fileName = "elite_growth_elixir_200_5.png";  // Simpler file name
     } else {
-        // For other items, keep the item name as is (no need for replacement)
         fileName = itemName + ".png";  // Directly append ".png" to the item name
     }
 
-    // Return the path to the image
+    // Log the file path to ensure it's correct
     const filePath = `images/${fileName}`;
-    console.log(filePath);  // Check the generated path in the console
+    console.log("Image Path: ", filePath);  // Check the generated path in the console
+
     return filePath;
 }
 
