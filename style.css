@@ -3,8 +3,6 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
 }
 
 /* Container for the content */
@@ -17,25 +15,24 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Button styling */
+/* Style for buttons */
 button {
     padding: 12px 25px;
     margin: 10px 0;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    background-color: #2196F3;
+    background-color: #2196F3; /* Blue color */
     color: white;
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    display: block;
+    display: block; /* Ensures the button is a block-level element */
     width: 100%;
 }
 
-/* Hover effect */
 button:hover {
-    background-color: #1976D2;
+    background-color: #1976D2; /* Darker blue on hover */
 }
 
 /* Dropdown styling */
@@ -57,42 +54,42 @@ button:hover {
 /* Focus effect for the select box */
 #item-select:focus {
     outline: none;
-    border-color: #2196F3;
-    box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+    border-color: #2196F3; /* Blue border on focus */
+    box-shadow: 0 0 5px rgba(33, 150, 243, 0.5); /* Blue glow effect */
 }
 
 /* Item container styles */
 #item-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, 1fr); /* 5 columns */
     gap: 10px;
     margin-top: 20px;
 }
 
 #item-container .item {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    flex-direction: column; /* Stack image and name vertically */
+    align-items: center;    /* Center the items horizontally */
+    justify-content: center;/* Center the content vertically */
+    text-align: center;     /* Center the text */
 }
 
 /* Small item name text */
 .small-item-name {
     font-size: 12px;
     font-family: Arial, sans-serif;
-    color: #555;
+    color: #555; /* Slightly darker gray for the text */
 }
 
-/* Additional form element styles */
+/* Additional improvements for the page */
 input[type="checkbox"] {
     margin-top: 10px;
     margin-right: 10px;
 }
 
-/* Form elements */
+/* Style for form elements (checkbox, label, select) */
 .form-element {
-    display: block;
+    display: block;  /* Ensure each form element is on its own line */
     margin: 10px 0;
     text-align: left;
 }
@@ -102,47 +99,7 @@ input[type="checkbox"] {
     margin: 10px 0;
 }
 
-/* Add spacing to the overall page */
+/* Add some spacing to the overall page */
 .container > * {
     margin-bottom: 20px;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    /* Adjust container padding for smaller screens */
-    .container {
-        padding: 15px;
-    }
-    
-    /* Reduce the number of grid columns for smaller screens */
-    #item-container {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns for smaller screens */
-    }
-    
-    /* Smaller buttons for mobile */
-    button {
-        padding: 10px 20px;
-    }
-
-    /* Adjust select dropdown width */
-    #item-select {
-        width: 90%;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    /* Reduce the number of grid columns further */
-    #item-container {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for very small screens */
-    }
-    
-    /* Adjust buttons further */
-    button {
-        padding: 8px 16px;
-    }
-    
-    /* Make form elements fit the screen better */
-    .form-element {
-        margin: 8px 0;
-    }
 }
