@@ -71,7 +71,7 @@ button:hover {
 /* Grid layout for items */
 #item-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-template-columns: repeat(5, 1fr); /* 5 equal-width columns */
     gap: 10px;
     margin-top: 20px;
     max-height: 40vh; /* Prevents overflow */
@@ -87,9 +87,16 @@ button:hover {
     text-align: center;
 }
 
+#item-container .item img {
+    width: 80px; /* Adjust size of images */
+    height: 80px; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensures the image doesn't stretch */
+}
+
 .small-item-name {
     font-size: 12px;
     color: #555;
+    margin-top: 5px; /* Adds space between image and text */
 }
 
 /* Checkbox Styling */
