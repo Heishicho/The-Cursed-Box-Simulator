@@ -75,39 +75,41 @@ let totalBoxesOpened = 0;
 let totalEdCost = 0;
 let itemCounts = {};
 
-// Load image for each item (check if images should be loaded)
+// Populate the dropdown with items
+const itemSelect = document.getElementById("item-select");
+items.forEach(item => {
+    const option = document.createElement("option");
+    option.value = item.name;
+    option.textContent = item.name;
+    itemSelect.appendChild(option);
+});
+
+// Load image for each item
 function loadImage(itemName) {
-    // Get the checkbox state
     const loadImagesChecked = document.getElementById('load-images').checked;
 
     if (!loadImagesChecked) {
         return '';  // No image will be loaded
     }
 
-    let fileName = itemName + ".png";  // Directly append ".png" to the item name
-    const filePath = `images/${fileName}`;
-    console.log("Image Path: ", filePath);  // Log the file path for debugging
-    return filePath;
+    let fileName = itemName + ".png";
+    return `images/${fileName}`;
 }
 
-// Open one box and roll for the selected item
+// Open one box
 function openBox() {
     totalBoxesOpened++;
     totalEdCost += 4400000;
-
     const selectedItem = selectRandomItem();
     updateUI([selectedItem]); // Pass the selected item as an array
-    updateHistoryLog(selectedItem);
 }
 
-// Open 25 boxes and roll for the selected items
+// Open 25 boxes
 function openBox25() {
     totalBoxesOpened += 25;
     totalEdCost += 4400000 * 25;
-
     const results = Array.from({ length: 25 }, selectRandomItem);
     updateUI(results); // Pass the results as an array of items
-    results.forEach(item => updateHistoryLog(item));
 }
 
 // Random item selection based on chances
@@ -127,30 +129,27 @@ function selectRandomItem() {
 // Update the UI with the selected items and costs
 function updateUI(items) {
     const itemContainer = document.getElementById("item-container");
-    const historyLog = document.getElementById("historyLog"); // Use historyLog for live updates
+    const historyLog = document.getElementById("historyLog");
 
     // Clear current item display
     itemContainer.innerHTML = "";
 
     items.forEach(item => {
         const itemDiv = document.createElement("div");
-        itemDiv.classList.add("item");  // Add the "item" class here to apply the flex column style
-        
+        itemDiv.classList.add("item");
+
         const itemImage = document.createElement("img");
-        const imagePath = loadImage(item.name);  // Load image based on checkbox state
+        const imagePath = loadImage(item.name);
         if (imagePath) {
             itemImage.src = imagePath;
         }
-        
+
         const itemName = document.createElement("p");
         itemName.textContent = item.name;
-        itemName.classList.add("small-item-name");  // Apply the small-item-name class
+        itemName.classList.add("small-item-name");
 
-        // Append image and item name to the div
         itemDiv.appendChild(itemImage);
         itemDiv.appendChild(itemName);
-
-        // Append the div to the container
         itemContainer.appendChild(itemDiv);
 
         // Track item counts
@@ -160,17 +159,15 @@ function updateUI(items) {
         itemCounts[item.name]++;
     });
 
-    // Sort the items by number of rolls (ascending order)
+    // Sort the items by number of rolls
     const sortedItems = Object.entries(itemCounts)
-        .sort((a, b) => a[1] - b[1]) // Sort by the count (index 1 of each entry)
-        .map(entry => entry[0]); // Get the item names sorted by the roll count
+        .sort((a, b) => a[1] - b[1])
+        .map(entry => entry[0]);
 
-    // Clear the history container before updating it
-    historyLog.value = ""; // Clear the textarea before updating
-
-    // Update the history container with sorted items
+    // Update history log
+    historyLog.value = "";
     sortedItems.forEach(itemName => {
-        historyLog.value += `${itemName} - Rolls: ${itemCounts[itemName]}\n`; // Append to the textarea
+        historyLog.value += `${itemName} - Rolls: ${itemCounts[itemName]}\n`;
     });
 
     // Update total ED cost
@@ -178,15 +175,20 @@ function updateUI(items) {
     document.getElementById("total-boxes").textContent = `Total Boxes Opened: ${totalBoxesOpened}`;
 }
 
-// Function to update the history log dynamically
-function updateHistoryLog(item) {
-    const historyLog = document.getElementById("historyLog");
+// Start rolling for a selected item until it is rolled
+let rollingInterval;
+function startRollingForItem() {
+    const targetItemName = document.getElementById("item-select").value;
+    let rolledItem;
 
-    // Update the history log with the most recent item
-    historyLog.value = `${item.name} - Rolls: ${itemCounts[item.name]}\n` + historyLog.value;
+    // Keep rolling until the selected item is rolled
+    rollingInterval = setInterval(() => {
+        rolledItem = selectRandomItem();
+        updateUI([rolledItem]);
 
-    // Make sure history log is not too long (keeping it concise)
-    if (historyLog.value.split("\n").length > 10) {
-        historyLog.value = historyLog.value.split("\n").slice(0, 10).join("\n");
-    }
+        if (rolledItem.name === targetItemName) {
+            clearInterval(rollingInterval);  // Stop rolling when the target item is selected
+            console.log(`Rolled the target item: ${targetItemName}`);
+        }
+    }, 100);  // Adjust speed here
 }
