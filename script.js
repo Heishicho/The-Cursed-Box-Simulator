@@ -158,7 +158,7 @@ function updateUI(items) {
     });
 
     document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
-    document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened}`;
+    document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened.toLocaleString()}`;
 }
 
 let rollingInterval;
@@ -186,7 +186,7 @@ function startRollingForItem() {
         updateUI(rolledItems);
 
         // Update the total counts in the DOM
-        document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened}`;
+        document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened.toLocaleString()}`;
         document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
 
         // Check if the target item was rolled
