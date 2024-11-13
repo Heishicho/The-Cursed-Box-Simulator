@@ -20,16 +20,15 @@ button {
     cursor: pointer;
 }
 
-#itemGrid {
+#item-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5 columns */
-    grid-template-rows: repeat(5, 1fr);    /* 5 rows */
     gap: 10px;
     margin-top: 20px;
 }
 
 /* History Log Box CSS */
-#historyLog {
+#history-container {
     width: 600px;         /* Set width to 600px */
     height: 150px;        /* Set height to 150px */
     resize: vertical;     /* Allow resizing vertically */
