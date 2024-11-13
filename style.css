@@ -112,7 +112,7 @@ input[type="checkbox"] {
 
 textarea {
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     max-height: 20vh; /* Restricts height to fit the viewport */
     border: 2px solid #ddd;
     border-radius: 5px;
