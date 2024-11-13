@@ -146,7 +146,7 @@ function updateUI(result) {
         // Update the grid with images for all 25 items
         // Fill remaining slots with placeholders (if any)
 const totalItems = result.length;
-const emptySlots = 28 - totalItems; // 28 is 7 * 4
+const emptySlots = 25 - totalItems; // 25 is 5 * 5
 for (let i = 0; i < emptySlots; i++) {
     document.getElementById("itemGrid").innerHTML += `
         <div>
