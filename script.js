@@ -140,10 +140,18 @@ function updateUI(result) {
     } else {
         itemLabel.textContent = `Rolled: ${result.name} (${result.chance}%)`;
         itemImage.src = loadImage(result.name);
+        
+        // Track item roll count
+        if (!itemCounts[result.name]) {
+            itemCounts[result.name] = 0; // Initialize the count if not yet set
+        }
+        itemCounts[result.name]++; // Increment the roll count
+
+        // Update the history log with the item name, chance, and count
+        historyLog.value += `${result.name} rolled ${result.chance}% - Rolled ${itemCounts[result.name]} times\n`;
     }
 
     // Update counts
     boxCount.textContent = `Boxes Opened: ${totalBoxesOpened}`;
     edCost.textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
-    historyLog.value += `${result.name} rolled ${result.chance}%\n`;
 }
