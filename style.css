@@ -26,15 +26,3 @@ button {
     gap: 10px;
     margin-top: 20px;
 }
-
-/* History Log Box CSS */
-#history-container {
-    width: 600px;         /* Set width to 600px */
-    height: 150px;        /* Set height to 150px */
-    resize: vertical;     /* Allow resizing vertically */
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    white-space: pre-wrap; /* Preserve whitespace formatting */
-    overflow-y: scroll;   /* Enable scrolling if content overflows */
-    margin-top: 20px;     /* Adds spacing between history and other elements */
-}
