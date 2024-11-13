@@ -109,16 +109,6 @@ function openBox25() {
     const results = Array.from({ length: 25 }, selectRandomItem);
 
     updateUI(results); // Pass the results as an array of items
-
-    // Start the loop for continuous box opening
-    setTimeout(loop, 100); // Adjust the interval as needed (100ms for smoother loop)
-}
-
-// Function for continuous opening of boxes
-function loop() {
-    openBox25(); // Opens 25 boxes at a time
-    // The loop will continue by calling itself with a small delay
-    setTimeout(loop, 100);  // You can adjust the interval as needed
 }
 
 // Random item selection based on chances
