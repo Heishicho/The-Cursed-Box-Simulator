@@ -92,7 +92,13 @@ function loadImage(itemName) {
         return '';  // No image will be loaded
     }
 
-    let fileName = itemName + ".png";
+    // Special case for "Elite Growth Elixir (200%) (5)"
+    if (itemName === "Elite Growth Elixir (200%) (5)") {
+        return `images/elite_growth_elixir_200_5.png`;  // Custom file name for this item
+    }
+
+    // Default case for other items
+    let fileName = itemName.replace(/\s+/g, '_').toLowerCase() + ".png";
     return `images/${fileName}`;
 }
 
