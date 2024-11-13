@@ -164,7 +164,23 @@ function updateUI(items) {
     // Update the ED cost and total revenue in the UI
     document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
     document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened.toLocaleString()}`;
-    document.getElementById("total-revenue").textContent = `Total Revenue: ${totalRevenue.toLocaleString()}`; // New revenue line
+    document.getElementById("total-revenue").textContent = `Total Revenue: ${totalRevenue.toLocaleString()}`;
+
+    // Calculate profit or loss
+    const profitLoss = totalRevenue - totalEdCost;
+    const profitLossElement = document.getElementById("profit-loss");
+
+    // Format profit or loss with commas
+    const formattedProfitLoss = profitLoss.toLocaleString();
+
+    // Set the text and color for profit/loss
+    if (profitLoss >= 0) {
+        profitLossElement.textContent = `Profit/Loss: +${formattedProfitLoss}`;
+        profitLossElement.style.color = 'green'; // Profit is green
+    } else {
+        profitLossElement.textContent = `Profit/Loss: -${formattedProfitLoss}`;
+        profitLossElement.style.color = 'red'; // Loss is red
+    }
 }
 
 let rollingInterval;
