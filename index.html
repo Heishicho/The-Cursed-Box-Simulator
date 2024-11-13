@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cursed Box Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>The Cursed Box Simulator</h1>
+        <p id="itemLabel">Rolled: </p>
+        <img id="itemImage" src="" alt="Item Image" width="50" height="50">
+        <p id="boxCount">Boxes Opened: 0</p>
+        <p id="edCost">Total ED Cost: 0</p>
+        <button onclick="openBox()">Keep Using</button>
+        <button onclick="openBox25()">Keep Using x25</button>
+        <div id="itemGrid"></div>
+        <h2>History</h2>
+        <textarea id="historyLog" readonly rows="10"></textarea>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
