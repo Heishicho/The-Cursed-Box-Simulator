@@ -1,43 +1,41 @@
 body {
-font-family: Arial, sans-serif;
-text-align: center;
-background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
 }
 
 .container {
-max-width: 600px;
-margin: auto;
-padding: 20px;
-background: white;
-border-radius: 8px;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 button {
-padding: 10px 20px;
-margin: 10px;
-font-size: 16px;
-cursor: pointer;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 #itemGrid {
-display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 columns */
-    grid-template-rows: repeat(4, 1fr);    /* 4 rows */
+    display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5 columns */
     grid-template-rows: repeat(5, 1fr);    /* 5 rows */
-gap: 10px;
-margin-top: 20px;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 /* History Log Box CSS */
 #historyLog {
-width: 600px;         /* Set width to 600px */
-height: 150px;        /* Set height to 150px */
-resize: vertical;     /* Allow resizing vertically */
-font-family: Arial, sans-serif;
-font-size: 14px;
-white-space: pre-wrap; /* Preserve whitespace formatting */
-overflow-y: scroll;   /* Enable scrolling if content overflows */
-margin-top: 20px;     /* Adds spacing between history and other elements */
+    width: 600px;         /* Set width to 600px */
+    height: 150px;        /* Set height to 150px */
+    resize: vertical;     /* Allow resizing vertically */
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    white-space: pre-wrap; /* Preserve whitespace formatting */
+    overflow-y: scroll;   /* Enable scrolling if content overflows */
+    margin-top: 20px;     /* Adds spacing between history and other elements */
 }
