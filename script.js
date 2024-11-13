@@ -92,7 +92,13 @@ function loadImage(itemName) {
         return '';  // No image will be loaded
     }
 
-    let fileName = itemName.replace(/\s+/g, '_').toLowerCase() + ".png";
+    let fileName = itemName.toLowerCase() + ".png";
+
+    // Handle exceptions for special file names
+    if (itemName === "Elite Growth Elixir (200%) (5)") {
+        fileName = "elite_growth_elixir_200_5.png";
+    }
+
     return `images/${fileName}`;
 }
 
