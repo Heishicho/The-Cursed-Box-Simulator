@@ -133,6 +133,13 @@ function updateUI(items) {
     // Clear current item display
     itemContainer.innerHTML = "";
 
+    // Check if we need to display a grid (for 25 items)
+    if (items.length === 25) {
+        itemContainer.classList.add("grid-container");
+    } else {
+        itemContainer.classList.remove("grid-container");
+    }
+
     items.forEach(item => {
         const itemDiv = document.createElement("div");
         const itemImage = document.createElement("img");
