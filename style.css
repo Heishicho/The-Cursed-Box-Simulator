@@ -18,24 +18,49 @@ button {
     margin: 10px;
     font-size: 16px;
     cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-#itemGrid {
+button:hover {
+    background-color: #45a049;
+}
+
+#item-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5 columns */
-    grid-template-rows: repeat(5, 1fr);    /* 5 rows */
     gap: 10px;
     margin-top: 20px;
+    justify-items: center; /* Centers grid items */
 }
 
 /* History Log Box CSS */
-#historyLog {
+#history-container {
     width: 600px;         /* Set width to 600px */
-    height: 150px;        /* Set height to 150px */
+    max-height: 200px;    /* Limit height for scrolling */
     resize: vertical;     /* Allow resizing vertically */
     font-family: Arial, sans-serif;
     font-size: 14px;
     white-space: pre-wrap; /* Preserve whitespace formatting */
-    overflow-y: scroll;   /* Enable scrolling if content overflows */
+    overflow-y: auto;     /* Enable scrolling if content overflows */
     margin-top: 20px;     /* Adds spacing between history and other elements */
+    padding: 10px;        /* Adds padding inside the box */
+    border: 1px solid #ddd; /* Adds border for clarity */
+    border-radius: 5px;
+    background-color: #fafafa; /* Light background for the log */
+}
+
+#history-container div {
+    margin-bottom: 8px;    /* Adds spacing between history items */
+}
+
+/* Ensure images inside the grid fit well */
+#item-container img {
+    width: 100%;           /* Ensures the images fill their grid cells */
+    max-width: 100px;      /* Limits the size */
+    height: auto;          /* Maintains aspect ratio */
+    border-radius: 5px;
 }
