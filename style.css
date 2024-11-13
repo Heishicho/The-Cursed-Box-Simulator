@@ -28,8 +28,16 @@ button {
     margin-top: 20px;
 }
 
+#item-container .item {
+    display: flex;
+    flex-direction: column; /* Stack image and name vertically */
+    align-items: center;    /* Center the items horizontally */
+    justify-content: center;/* Center the content vertically */
+    text-align: center;     /* Center the text */
+}
+
 /* New rule for smaller item name text */
 .small-item-name {
-    font-size: 7px; /* Adjust this value to make the text smaller or larger */
+    font-size: 12px; /* Adjust this value to make the text smaller or larger */
     font-family: Arial, sans-serif; /* Optional: You can choose a different font family if needed */
 }
