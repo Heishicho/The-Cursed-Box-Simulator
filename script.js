@@ -146,10 +146,20 @@ function updateUI(items) {
             itemCounts[item.name] = 0;
         }
         itemCounts[item.name]++;
-        
-        // Log the history
+    });
+
+    // Sort the items by number of rolls (ascending order)
+    const sortedItems = Object.entries(itemCounts)
+        .sort((a, b) => a[1] - b[1]) // Sort by the count (index 1 of each entry)
+        .map(entry => entry[0]); // Get the item names sorted by the roll count
+
+    // Clear the history container before updating it
+    historyContainer.innerHTML = "";
+
+    // Update the history container with sorted items
+    sortedItems.forEach(itemName => {
         const historyDiv = document.createElement("div");
-        historyDiv.textContent = `${item.name} - ED cost: 4,400,000`;
+        historyDiv.textContent = `${itemName} - Rolls: ${itemCounts[itemName]}`;
         historyContainer.appendChild(historyDiv);
     });
 
@@ -157,7 +167,3 @@ function updateUI(items) {
     document.getElementById("total-ed-cost").textContent = `Total ED cost: ${totalEdCost.toLocaleString()}`;
     document.getElementById("total-boxes").textContent = `Total boxes opened: ${totalBoxesOpened}`;
 }
-
-// Call openBox or openBox25 as needed
-document.getElementById("open-box-btn").addEventListener("click", openBox);
-document.getElementById("open-25-boxes-btn").addEventListener("click", openBox25);
