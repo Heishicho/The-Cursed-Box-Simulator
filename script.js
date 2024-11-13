@@ -92,14 +92,8 @@ function loadImage(itemName) {
         return '';  // No image will be loaded
     }
 
-    // Special case for "Elite Growth Elixir (200%) (5)"
-    if (itemName === "Elite Growth Elixir (200%) (5)") {
-        return images/elite_growth_elixir_200_5.png;  // Custom file name for this item
-    }
-
-    // Default case for other items
     let fileName = itemName.replace(/\s+/g, '_').toLowerCase() + ".png";
-    return images/${fileName};
+    return `images/${fileName}`;
 }
 
 // Open one box
@@ -167,52 +161,40 @@ function updateUI(items) {
 
     // Sort the items by number of rolls
     const sortedItems = Object.entries(itemCounts)
-        .sort((a, b) => a[1] - b[1])
+        .sort((a, b) => b[1] - a[1])
         .map(entry => entry[0]);
 
     // Update history log
     historyLog.value = "";
     sortedItems.forEach(itemName => {
-        historyLog.value += ${itemName} - Rolls: ${itemCounts[itemName]}\n;
+        historyLog.value += `${itemName} - Rolls: ${itemCounts[itemName]}\n`;
     });
 
     // Update total ED cost
-    document.getElementById("total-ed-cost").textContent = Total ED Cost: ${totalEdCost.toLocaleString()};
-    document.getElementById("total-boxes").textContent = Total Boxes Opened: ${totalBoxesOpened};
+    document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
+    document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened}`;
 }
 
 // Start rolling for a selected item until it is rolled
 let rollingInterval;
 function startRollingForItem() {
     const targetItemName = document.getElementById("item-select").value;
-    let rolledItem;
+    let rollCount = 0;
 
-    // Increment the counters for each roll
-    const boxesPerRoll = 1;  // Increment per roll (since it's a single box each time)
-    const edCostPerRoll = 4400000;  // ED cost for each box
-
-    // Speed up the rolling process by reducing the interval
-    let rollCount = 0; // Variable to track number of rolls
-
-    // Simulate fast rolling with an extremely short interval
     rollingInterval = setInterval(() => {
-        rolledItem = selectRandomItem();
+        const rolledItem = selectRandomItem();
         updateUI([rolledItem]);
 
-        // Increment the total boxes opened and ED cost for each roll
-        totalBoxesOpened += boxesPerRoll;
-        totalEdCost += edCostPerRoll;
+        totalBoxesOpened++;
+        totalEdCost += 4400000;
 
-        // Update the total boxes and ED cost in the UI
-        document.getElementById("total-boxes").textContent = `Total Boxes Opened: ${totalBoxesOpened}`;
+        document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened}`;
         document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
 
-        rollCount++; // Increment roll count
-
-        // Stop the interval if we've rolled the target item or reached a certain roll count
+        rollCount++;
         if (rolledItem.name === targetItemName || rollCount >= 1000000) {
-            clearInterval(rollingInterval);  // Stop rolling after a large number of fast rolls
+            clearInterval(rollingInterval);
             console.log(`Rolled the target item: ${targetItemName}`);
         }
-    }, 1);  // Adjust speed to make it almost instant (1 millisecond interval)
+    }, 1);  // Fast rolling with a 1 ms interval
 }
