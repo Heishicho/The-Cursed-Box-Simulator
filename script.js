@@ -144,12 +144,17 @@ function updateUI(result) {
         });
 
         // Update the grid with images for all 25 items
-        document.getElementById("itemGrid").innerHTML = result.map(item => `
-            <div>
-                <img src="${loadImage(item.name)}" alt="${item.name}">
-                <p>${item.name} (${item.chance}%)</p>
-            </div>
-        `).join('');
+        // Fill remaining slots with placeholders (if any)
+const totalItems = result.length;
+const emptySlots = 28 - totalItems; // 28 is 7 * 4
+for (let i = 0; i < emptySlots; i++) {
+    document.getElementById("itemGrid").innerHTML += `
+        <div>
+            <img src="images/placeholder.png" alt="Empty Slot">
+            <p>Empty Slot</p>
+        </div>
+    `;
+}
     } else {
         // Update the history log for a single item roll
         itemLabel.textContent = `Rolled: ${result.name} (${result.chance}%)`;
