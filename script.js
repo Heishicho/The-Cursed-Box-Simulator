@@ -181,10 +181,22 @@ function startRollingForItem() {
     const targetItemName = document.getElementById("item-select").value;
     let rolledItem;
 
+    // Increment the counters for each roll
+    const boxesPerRoll = 1;  // Increment per roll (since it's a single box each time)
+    const edCostPerRoll = 4400000;  // ED cost for each box
+
     // Keep rolling until the selected item is rolled
     rollingInterval = setInterval(() => {
         rolledItem = selectRandomItem();
         updateUI([rolledItem]);
+
+        // Increment the total boxes opened and ED cost for each roll
+        totalBoxesOpened += boxesPerRoll;
+        totalEdCost += edCostPerRoll;
+
+        // Update the total boxes and ED cost in the UI
+        document.getElementById("total-boxes").textContent = `Total Boxes Opened: ${totalBoxesOpened}`;
+        document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
 
         if (rolledItem.name === targetItemName) {
             clearInterval(rollingInterval);  // Stop rolling when the target item is selected
@@ -192,3 +204,4 @@ function startRollingForItem() {
         }
     }, 100);  // Adjust speed here
 }
+
