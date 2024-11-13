@@ -139,22 +139,23 @@ function updateUI(result) {
             }
             itemCounts[item.name]++; // Increment the roll count
 
-            // Update the history log with the item name, chance, and count
+            // Update the history log with the item name, chance, and combined roll count
+            historyLog.value = historyLog.value.split("\n").filter(line => !line.startsWith(item.name)).join("\n"); // Remove previous entries for the same item
             historyLog.value += `${item.name} rolled ${item.chance}% - Rolled ${itemCounts[item.name]} times\n`;
         });
 
         // Update the grid with images for all 25 items
         // Fill remaining slots with placeholders (if any)
-const totalItems = result.length;
-const emptySlots = 25 - totalItems; // 25 is 5 * 5
-for (let i = 0; i < emptySlots; i++) {
-    document.getElementById("itemGrid").innerHTML += `
-        <div>
-            <img src="images/placeholder.png" alt="Empty Slot">
-            <p>Empty Slot</p>
-        </div>
-    `;
-}
+        const totalItems = result.length;
+        const emptySlots = 25 - totalItems; // 25 is 5 * 5
+        for (let i = 0; i < emptySlots; i++) {
+            document.getElementById("itemGrid").innerHTML += `
+                <div>
+                    <img src="images/placeholder.png" alt="Empty Slot">
+                    <p>Empty Slot</p>
+                </div>
+            `;
+        }
     } else {
         // Update the history log for a single item roll
         itemLabel.textContent = `Rolled: ${result.name} (${result.chance}%)`;
@@ -166,7 +167,8 @@ for (let i = 0; i < emptySlots; i++) {
         }
         itemCounts[result.name]++; // Increment the roll count
 
-        // Update the history log with the item name, chance, and count
+        // Update the history log with the item name, chance, and combined roll count
+        historyLog.value = historyLog.value.split("\n").filter(line => !line.startsWith(result.name)).join("\n"); // Remove previous entries for the same item
         historyLog.value += `${result.name} rolled ${result.chance}% - Rolled ${itemCounts[result.name]} times\n`;
     }
 
