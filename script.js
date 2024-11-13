@@ -77,8 +77,10 @@ let itemCounts = {};
 
 // Load image for each item
 function loadImage(itemName) {
-    const fileName = itemName + ".png";  // Use the exact name with .png extension
-    return `images/${fileName}`;
+    const fileName = itemName + ".png";  // Keep the item name exactly as it is (case-sensitive)
+    const filePath = `images/${fileName}`;  // Reference the exact image file path
+    console.log(filePath);  // This will help you verify the generated path in the browser console
+    return filePath;
 }
 
 // Open one box
