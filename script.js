@@ -1,4 +1,4 @@
-// Items list (copy over from Python, each with a name, value, and chance)
+// Items list (same as before, copy the full list)
 const items = [
     { name: "Vegan Deep Fried Bird Leg", value: 50, chance: 3 },
     { name: "Delicious Gingerbread Bird Cookie", value: 50, chance: 3 },
@@ -111,7 +111,7 @@ function openBox25() {
     updateUI(results); // Pass the results as an array of items
 }
 
-// Select a random item based on chance
+// Random item selection based on chances
 function selectRandomItem() {
     const totalWeight = items.reduce((sum, item) => sum + item.chance, 0);
     const randomWeight = Math.random() * totalWeight;
@@ -141,7 +141,7 @@ function updateUI(items) {
         itemDiv.appendChild(document.createTextNode(item.name));
 
         itemContainer.appendChild(itemDiv);
-        
+
         if (!itemCounts[item.name]) {
             itemCounts[item.name] = 0;
         }
