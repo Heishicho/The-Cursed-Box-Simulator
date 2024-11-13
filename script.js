@@ -138,8 +138,13 @@ function updateUI(items) {
         const itemImage = document.createElement("img");
         itemImage.src = loadImage(item.name);
         itemDiv.appendChild(itemImage);
-        itemDiv.appendChild(document.createTextNode(item.name));
 
+        // Create a span for item name and apply the CSS class
+        const itemNameText = document.createElement("span");
+        itemNameText.textContent = item.name;
+        itemNameText.classList.add("small-item-name");  // Add class for small text
+
+        itemDiv.appendChild(itemNameText);
         itemContainer.appendChild(itemDiv);
 
         if (!itemCounts[item.name]) {
@@ -161,7 +166,7 @@ function updateUI(items) {
         historyLog.value += `${itemName} - Rolls: ${itemCounts[itemName]}\n`; // Append to the textarea
     });
 
-    // Update total ED cost and boxes opened
-    document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
-    document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened}`;
+    // Update total ED cost
+    document.getElementById("total-ed-cost").textContent = `Total ED cost: ${totalEdCost.toLocaleString()}`;
+    document.getElementById("total-boxes").textContent = `Total boxes opened: ${totalBoxesOpened}`;
 }
