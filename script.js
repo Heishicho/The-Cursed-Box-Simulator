@@ -83,8 +83,8 @@ function loadImage(itemName) {
     if (itemName === "Elite Growth Elixir (200%) (5)") {
         fileName = "elite_growth_elixir_200_5.png";  // Simpler file name
     } else {
-        // For other items, use the item name as is, or modify if necessary
-        fileName = itemName.replace(/[^a-zA-Z0-9]/g, "_") + ".png";  // Replace spaces/special chars with underscores
+        // For other items, keep the item name as is (no need for replacement)
+        fileName = itemName + ".png";  // Directly append ".png" to the item name
     }
 
     // Return the path to the image
