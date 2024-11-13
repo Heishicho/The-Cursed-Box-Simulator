@@ -99,7 +99,7 @@ function openBox() {
     totalEdCost += 4400000;
     const selectedItem = selectRandomItem();
 
-    updateUI(selectedItem);
+    updateUI([selectedItem]); // Pass the selected item as an array
 }
 
 // Open 25 boxes
@@ -108,78 +108,56 @@ function openBox25() {
     totalEdCost += 4400000 * 25;
     const results = Array.from({ length: 25 }, selectRandomItem);
 
-    updateUI(results);
+    updateUI(results); // Pass the results as an array of items
 }
 
 // Select a random item based on chance
 function selectRandomItem() {
     const totalWeight = items.reduce((sum, item) => sum + item.chance, 0);
-    let random = Math.random() * totalWeight;
+    const randomWeight = Math.random() * totalWeight;
+    let cumulativeWeight = 0;
+
     for (let item of items) {
-        if (random < item.chance) return item;
-        random -= item.chance;
-    }
-}
-
-// Update the UI
-function updateUI(result) {
-    const itemLabel = document.getElementById("itemLabel");
-    const itemImage = document.getElementById("itemImage");
-    const boxCount = document.getElementById("boxCount");
-    const edCost = document.getElementById("edCost");
-    const historyLog = document.getElementById("historyLog");
-    const itemGrid = document.getElementById("itemGrid");
-
-    // Clear the previous grid content before updating
-    itemGrid.innerHTML = '';
-
-    // Check if the result is an array (for multiple items) or a single item
-    if (Array.isArray(result)) {
-        // Loop through each rolled item and update the history log
-        result.forEach(item => {
-            // Track item roll count
-            if (!itemCounts[item.name]) {
-                itemCounts[item.name] = 0; // Initialize the count if not yet set
-            }
-            itemCounts[item.name]++; // Increment the roll count
-
-            // Update the history log with the item name, chance, and combined roll count
-            historyLog.value = historyLog.value.split("\n").filter(line => !line.startsWith(item.name)).join("\n"); // Remove previous entries for the same item
-            historyLog.value += `${item.name} rolled ${item.chance}% - Rolled ${itemCounts[item.name]} times\n`;
-
-            // Add item to the grid
-            itemGrid.innerHTML += `
-                <div>
-                    <img src="${loadImage(item.name)}" alt="${item.name}">
-                    <p>${item.name}</p>
-                </div>
-            `;
-        });
-    } else {
-        // Update the history log for a single item roll
-        itemLabel.textContent = `Rolled: ${result.name} (${result.chance}%)`;
-        itemImage.src = loadImage(result.name);
-
-        // Track item roll count
-        if (!itemCounts[result.name]) {
-            itemCounts[result.name] = 0; // Initialize the count if not yet set
+        cumulativeWeight += item.chance;
+        if (randomWeight <= cumulativeWeight) {
+            return item;
         }
-        itemCounts[result.name]++; // Increment the roll count
-
-        // Update the history log with the item name, chance, and combined roll count
-        historyLog.value = historyLog.value.split("\n").filter(line => !line.startsWith(result.name)).join("\n"); // Remove previous entries for the same item
-        historyLog.value += `${result.name} rolled ${result.chance}% - Rolled ${itemCounts[result.name]} times\n`;
-
-        // Add the single item to the grid
-        itemGrid.innerHTML += `
-            <div>
-                <img src="${loadImage(result.name)}" alt="${result.name}">
-                <p>${result.name}</p>
-            </div>
-        `;
     }
-
-    // Update counts
-    boxCount.textContent = `Boxes Opened: ${totalBoxesOpened}`;
-    edCost.textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
 }
+
+// Update the UI with the selected items and costs
+function updateUI(items) {
+    const itemContainer = document.getElementById("item-container");
+    const historyContainer = document.getElementById("history-container");
+
+    // Clear current item display
+    itemContainer.innerHTML = "";
+
+    items.forEach(item => {
+        const itemDiv = document.createElement("div");
+        const itemImage = document.createElement("img");
+        itemImage.src = loadImage(item.name);
+        itemDiv.appendChild(itemImage);
+        itemDiv.appendChild(document.createTextNode(item.name));
+
+        itemContainer.appendChild(itemDiv);
+        
+        if (!itemCounts[item.name]) {
+            itemCounts[item.name] = 0;
+        }
+        itemCounts[item.name]++;
+        
+        // Log the history
+        const historyDiv = document.createElement("div");
+        historyDiv.textContent = `${item.name} - ED cost: 4,400,000`;
+        historyContainer.appendChild(historyDiv);
+    });
+
+    // Update total ED cost
+    document.getElementById("total-ed-cost").textContent = `Total ED cost: ${totalEdCost.toLocaleString()}`;
+    document.getElementById("total-boxes").textContent = `Total boxes opened: ${totalBoxesOpened}`;
+}
+
+// Call openBox or openBox25 as needed
+document.getElementById("open-box-btn").addEventListener("click", openBox);
+document.getElementById("open-25-boxes-btn").addEventListener("click", openBox25);
