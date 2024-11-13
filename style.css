@@ -1,3 +1,4 @@
+/* Existing CSS rules */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -25,4 +26,10 @@ button {
     grid-template-columns: repeat(5, 1fr); /* 5 columns */
     gap: 10px;
     margin-top: 20px;
+}
+
+/* New rule for smaller item name text */
+.small-item-name {
+    font-size: 12px; /* Adjust this value to make the text smaller or larger */
+    font-family: Arial, sans-serif; /* Optional: You can choose a different font family if needed */
 }
