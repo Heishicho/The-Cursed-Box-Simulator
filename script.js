@@ -77,9 +77,19 @@ let itemCounts = {};
 
 // Load image for each item
 function loadImage(itemName) {
-    const fileName = itemName + ".png";  // Keep the item name exactly as it is (case-sensitive)
-    const filePath = `images/${fileName}`;  // Reference the exact image file path
-    console.log(filePath);  // This will help you verify the generated path in the browser console
+    let fileName;
+
+    // Handle specific case for "Elite Growth Elixir (200%) (5)"
+    if (itemName === "Elite Growth Elixir (200%) (5)") {
+        fileName = "elite_growth_elixir_200_5.png";  // Simpler file name
+    } else {
+        // For other items, use the item name as is, or modify if necessary
+        fileName = itemName + ".png";
+    }
+
+    // Return the path to the image
+    const filePath = `images/${fileName}`;
+    console.log(filePath);  // Check the generated path in the console
     return filePath;
 }
 
