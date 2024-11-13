@@ -99,75 +99,108 @@ function loadImage(itemName) {
         fileName = "elite_growth_elixir_200_5.png";
     }
 
-    return `images/${fileName}`;
+    return images/${fileName};
 }
 
 // Open one box
 function openBox() {
     totalBoxesOpened++;
-    totalEdCost += 4400000;  // Each box costs 4.4 million ED
-
-    const resultArea = document.getElementById("result-area");
-    const resultHistory = document.getElementById("result-history");
-    const selectedItem = itemSelect.value;
-
-    const item = items.find(item => item.name === selectedItem);
-    const probability = Math.random();
-    let cumulativeChance = 0;
-    let chosenItem = null;
-
-    for (const currentItem of items) {
-        cumulativeChance += currentItem.chance;
-        if (probability <= cumulativeChance / 100) {
-            chosenItem = currentItem;
-            break;
-        }
-    }
-
-    // Handle item probability, load image and update history
-    if (chosenItem) {
-        const itemName = chosenItem.name;
-        const itemValue = chosenItem.value;
-        const itemImage = loadImage(itemName);
-        
-        const itemElement = document.createElement("div");
-        itemElement.innerHTML = `
-            <img src="${itemImage}" alt="${itemName}" style="max-width: 100px;">
-            <div>${itemName}</div>
-            <div>Value: ${itemValue}</div>
-        `;
-        resultArea.innerHTML = itemElement.outerHTML;
-
-        // Log item history
-        const historyItem = document.createElement("div");
-        historyItem.textContent = `${itemName} - ED Cost: ${itemValue}`;
-        resultHistory.appendChild(historyItem);
-
-        // Store item count
-        itemCounts[itemName] = (itemCounts[itemName] || 0) + 1;
-    }
-
-    // Update the total ED cost and boxes opened
-    document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost}`;
-    document.getElementById("total-boxes-opened").textContent = `Boxes Opened: ${totalBoxesOpened}`;
+    totalEdCost += 4400000;
+    const selectedItem = selectRandomItem();
+    updateUI([selectedItem]); // Pass the selected item as an array
 }
 
-// Simulate multiple box opens for faster results
-function simulateMultipleRolls(numRolls, interval) {
-    let currentRolls = 0;
-    const simulate = setInterval(() => {
-        if (currentRolls < numRolls) {
-            openBox();
-            currentRolls++;
-        } else {
-            clearInterval(simulate);
-        }
-    }, interval);
+// Open 25 boxes
+function openBox25() {
+    totalBoxesOpened += 25;
+    totalEdCost += 4400000 * 25;
+    const results = Array.from({ length: 25 }, selectRandomItem);
+    updateUI(results); // Pass the results as an array of items
 }
 
-// Start the simulation when the button is clicked
-document.getElementById("open-button").addEventListener("click", () => {
-    const numRolls = 100; // You can increase the number of rolls to simulate
-    const interval = 10; // Adjust the interval for faster or slower simulation
-    simulateMultipleRolls(numRolls, interval);
-});
+// Random item selection based on chances
+function selectRandomItem() {
+    const totalWeight = items.reduce((sum, item) => sum + item.chance, 0);
+    const randomWeight = Math.random() * totalWeight;
+    let cumulativeWeight = 0;
+
+    for (let item of items) {
+        cumulativeWeight += item.chance;
+        if (randomWeight <= cumulativeWeight) {
+            return item;
+        }
+    }
+}
+
+// Update the UI with the selected items and costs
+function updateUI(items) {
+    const itemContainer = document.getElementById("item-container");
+    const historyLog = document.getElementById("historyLog");
+
+    // Clear current item display
+    itemContainer.innerHTML = "";
+
+    items.forEach(item => {
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("item");
+
+        const itemImage = document.createElement("img");
+        const imagePath = loadImage(item.name);
+        if (imagePath) {
+            itemImage.src = imagePath;
+        }
+
+        const itemName = document.createElement("p");
+        itemName.textContent = item.name;
+        itemName.classList.add("small-item-name");
+
+        itemDiv.appendChild(itemImage);
+        itemDiv.appendChild(itemName);
+        itemContainer.appendChild(itemDiv);
+
+        // Track item counts
+        if (!itemCounts[item.name]) {
+            itemCounts[item.name] = 0;
+        }
+        itemCounts[item.name]++;
+    });
+
+    // Sort the items by number of rolls
+    const sortedItems = Object.entries(itemCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map(entry => entry[0]);
+
+    // Update history log
+    historyLog.value = "";
+    sortedItems.forEach(itemName => {
+        historyLog.value += ${itemName} - Rolls: ${itemCounts[itemName]}\n;
+    });
+
+    // Update total ED cost
+    document.getElementById("total-ed-cost").textContent = Total ED Cost: ${totalEdCost.toLocaleString()};
+    document.getElementById("total-boxes").textContent = Boxes Opened: ${totalBoxesOpened};
+}
+
+// Start rolling for a selected item until it is rolled
+let rollingInterval;
+function startRollingForItem() {
+    const targetItemName = document.getElementById("item-select").value;
+    let rollCount = 0;
+
+    rollingInterval = setInterval(() => {
+        const rolledItem = selectRandomItem();
+        updateUI([rolledItem]);
+
+        totalBoxesOpened++;
+        totalEdCost += 4400000;
+
+        document.getElementById("total-boxes").textContent = Boxes Opened: ${totalBoxesOpened};
+        document.getElementById("total-ed-cost").textContent = Total ED Cost: ${totalEdCost.toLocaleString()};
+
+        rollCount++;
+        if (rolledItem.name === targetItemName || rollCount >= 1000000) {
+            clearInterval(rollingInterval);
+            console.log(Rolled the target item: ${targetItemName});
+        }
+    }, 1);  // Fast rolling with a 1 ms interval
+}
