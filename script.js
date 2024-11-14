@@ -199,13 +199,13 @@ function startRollingForItem() {
     // Smoothly update the displayed count
     const displayInterval = setInterval(() => {
         if (displayBoxesOpened < totalBoxesOpened) {
-            displayBoxesOpened += Math.min(1000000, totalBoxesOpened - displayBoxesOpened); // Adjust increment as needed
+            displayBoxesOpened += Math.min(100000, totalBoxesOpened - displayBoxesOpened); // Adjust increment as needed
             document.getElementById("total-boxes").textContent = `Boxes Opened: ${displayBoxesOpened.toLocaleString()}`;
         }
-    }, 100); // Update every 100 milliseconds for smoother look
+    }, 50); // Update every 50 milliseconds
 
     rollingInterval = setInterval(() => {
-        const batchSize = 100000000; // Roll 100 million items at a time
+        const batchSize = 10000000; // Roll 10 million items at a time
         const rolledItems = Array.from({ length: batchSize }, selectRandomItem);
         
         totalBoxesOpened += batchSize;
