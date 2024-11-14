@@ -100,7 +100,7 @@ function openBox() {
     totalEdCost += 4400000;
     const selectedItem = selectRandomItem();
     totalRevenue += selectedItem.ed; // Add the ED cost of the selected item to total revenue
-    updateUI([selectedItem]); // Pass the correct selected item here
+    updateUI([selectedItem]);
 }
 
 function openBox25() {
@@ -108,7 +108,7 @@ function openBox25() {
     totalEdCost += 4400000 * 25;
     const results = Array.from({ length: 25 }, selectRandomItem);
     results.forEach(item => totalRevenue += item.ed); // Add the ED cost of each item to total revenue
-    updateUI(results); // Pass the correct results (array of selected items)
+    updateUI(results);
 }
 
 function selectRandomItem() {
@@ -243,9 +243,8 @@ function startRollingForItem() {
 function updateUI(items) {
     const itemContainer = document.getElementById("item-container");
     const historyLog = document.getElementById("historyLog");
-    itemContainer.innerHTML = ""; // Clear the previous content
+    itemContainer.innerHTML = "";
 
-    // Loop through each item and display it
     items.forEach(item => {
         const itemDiv = document.createElement("div");
         itemDiv.classList.add("item");
@@ -264,41 +263,21 @@ function updateUI(items) {
         itemDiv.appendChild(itemImage);
         itemDiv.appendChild(itemName);
         itemContainer.appendChild(itemDiv);
-
-        // Track how many times each item has appeared
-        if (!itemCounts[item.name]) itemCounts[item.name] = 0;
-        itemCounts[item.name]++;
     });
 
-    // Sort the items based on their count (for history log)
-    const sortedItems = Object.entries(itemCounts)
-        .sort((a, b) => b[1] - a[1])
-        .map(entry => entry[0]);
-
-    // Update the history log with sorted item names
+    // Update history log with all items and their counts up to the target item
     historyLog.value = "";
-    sortedItems.forEach(itemName => {
-        historyLog.value += `${itemName} - Rolls: ${itemCounts[itemName]}\n`;
+    items.forEach(item => {
+        historyLog.value += `${item.name} - Rolls: ${item.count}\n`;
     });
 
-    // Update ED cost and revenue statistics
+    // Update the ED cost, total revenue, and profit/loss in the UI
     document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
     document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened.toLocaleString()}`;
     document.getElementById("total-revenue").textContent = `Total Revenue: ${totalRevenue.toLocaleString()}`;
 
-    // Calculate profit or loss
     const profitLoss = totalRevenue - totalEdCost;
     const profitLossElement = document.getElementById("profit-loss");
-
-    // Format profit or loss with commas
-    let formattedProfitLoss = profitLoss.toLocaleString();
-
-    // Set the text and color for profit/loss
-    if (profitLoss >= 0) {
-        profitLossElement.textContent = `Profit/Loss: +${formattedProfitLoss}`;
-        profitLossElement.style.color = 'green'; // Profit is green
-    } else {
-        profitLossElement.textContent = `Profit/Loss: ${formattedProfitLoss}`;  // No need for another negative sign
-        profitLossElement.style.color = 'red'; // Loss is red
-    }
+    profitLossElement.textContent = `Profit/Loss: ${profitLoss >= 0 ? '+' : ''}${profitLoss.toLocaleString()}`;
+    profitLossElement.style.color = profitLoss >= 0 ? 'green' : 'red';
 }
