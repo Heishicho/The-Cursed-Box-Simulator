@@ -202,18 +202,18 @@ function startRollingForItem() {
             const rolledItem = selectRandomItem();
             totalBoxesOpened++;
             totalEdCost += 4400000;
-            totalRevenue += rolledItem.ed; // Increment revenue with ED cost
+            totalRevenue += rolledItem.ed;
 
-            // Update item counts
+            // Update item counts for history log
             if (!itemCounts[rolledItem.name]) itemCounts[rolledItem.name] = 0;
             itemCounts[rolledItem.name]++;
 
             // Check if the rolled item is the target item
-            if (rolledItem.name === targetItemName) {
+            if (rolledItem.name === targetItemName && !foundTarget) {
                 foundTarget = true;
 
-                // Update only the result with the found target item details
-                updateUI([rolledItem]); 
+                // Update UI with all items up to the target item
+                updateUI(Object.keys(itemCounts).map(name => ({ name, count: itemCounts[name] })));
                 
                 // Stop rolling once the target item is found
                 clearInterval(rollingInterval);
@@ -221,7 +221,7 @@ function startRollingForItem() {
                 break;
             }
 
-            // Periodically update the UI with counters for every 100,000 rolls
+            // Update counters periodically without changing the history log
             if (i % 100000 === 0) {
                 document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened.toLocaleString()}`;
                 document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
@@ -230,13 +230,54 @@ function startRollingForItem() {
                 // Calculate profit or loss
                 const profitLoss = totalRevenue - totalEdCost;
                 const profitLossElement = document.getElementById("profit-loss");
-                let formattedProfitLoss = profitLoss.toLocaleString();
-                profitLossElement.textContent = `Profit/Loss: ${profitLoss >= 0 ? '+' : ''}${formattedProfitLoss}`;
+                profitLossElement.textContent = `Profit/Loss: ${profitLoss >= 0 ? '+' : ''}${profitLoss.toLocaleString()}`;
                 profitLossElement.style.color = profitLoss >= 0 ? 'green' : 'red';
             }
         }
 
         // Stop if the target item is found
         if (foundTarget) clearInterval(rollingInterval);
-    }, 1); // High-speed rolling without UI lag
+    }, 1);
+}
+
+function updateUI(items) {
+    const itemContainer = document.getElementById("item-container");
+    const historyLog = document.getElementById("historyLog");
+    itemContainer.innerHTML = "";
+
+    items.forEach(item => {
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("item");
+
+        const itemImage = document.createElement("img");
+        const imagePath = loadImage(item.name);
+        if (imagePath) {
+            itemImage.src = imagePath;
+            itemImage.alt = item.name;
+        }
+
+        const itemName = document.createElement("p");
+        itemName.textContent = item.name;
+        itemName.classList.add("small-item-name");
+
+        itemDiv.appendChild(itemImage);
+        itemDiv.appendChild(itemName);
+        itemContainer.appendChild(itemDiv);
+    });
+
+    // Update history log with all items and their counts up to the target item
+    historyLog.value = "";
+    items.forEach(item => {
+        historyLog.value += `${item.name} - Rolls: ${item.count}\n`;
+    });
+
+    // Update the ED cost, total revenue, and profit/loss in the UI
+    document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
+    document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened.toLocaleString()}`;
+    document.getElementById("total-revenue").textContent = `Total Revenue: ${totalRevenue.toLocaleString()}`;
+
+    const profitLoss = totalRevenue - totalEdCost;
+    const profitLossElement = document.getElementById("profit-loss");
+    profitLossElement.textContent = `Profit/Loss: ${profitLoss >= 0 ? '+' : ''}${profitLoss.toLocaleString()}`;
+    profitLossElement.style.color = profitLoss >= 0 ? 'green' : 'red';
 }
