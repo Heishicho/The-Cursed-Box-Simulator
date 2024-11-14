@@ -100,7 +100,7 @@ function openBox() {
     totalEdCost += 4400000;
     const selectedItem = selectRandomItem();
     totalRevenue += selectedItem.ed; // Add the ED cost of the selected item to total revenue
-    updateUI([selectedItem]);
+    updateUI([selectedItem]); // Pass the correct selected item here
 }
 
 function openBox25() {
@@ -108,7 +108,7 @@ function openBox25() {
     totalEdCost += 4400000 * 25;
     const results = Array.from({ length: 25 }, selectRandomItem);
     results.forEach(item => totalRevenue += item.ed); // Add the ED cost of each item to total revenue
-    updateUI(results);
+    updateUI(results); // Pass the correct results (array of selected items)
 }
 
 function selectRandomItem() {
@@ -243,41 +243,62 @@ function startRollingForItem() {
 function updateUI(items) {
     const itemContainer = document.getElementById("item-container");
     const historyLog = document.getElementById("historyLog");
-    itemContainer.innerHTML = "";
+    itemContainer.innerHTML = ""; // Clear the previous content
 
-    // Only show the image and name of the single selected item
-    const selectedItem = items[0]; // Get the first item (which is the rolled item)
-    const itemDiv = document.createElement("div");
-    itemDiv.classList.add("item");
-
-    const itemImage = document.createElement("img");
-    const imagePath = loadImage(selectedItem.name);
-    if (imagePath) {
-        itemImage.src = imagePath;
-        itemImage.alt = selectedItem.name;
-    }
-
-    const itemName = document.createElement("p");
-    itemName.textContent = selectedItem.name;
-    itemName.classList.add("small-item-name");
-
-    itemDiv.appendChild(itemImage);
-    itemDiv.appendChild(itemName);
-    itemContainer.appendChild(itemDiv);
-
-    // Update history log with all items and their counts up to the target item
-    historyLog.value = "";
+    // Loop through each item and display it
     items.forEach(item => {
-        historyLog.value += `${item.name} - Rolls: ${item.count}\n`;
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("item");
+
+        const itemImage = document.createElement("img");
+        const imagePath = loadImage(item.name);
+        if (imagePath) {
+            itemImage.src = imagePath;
+            itemImage.alt = item.name;
+        }
+
+        const itemName = document.createElement("p");
+        itemName.textContent = item.name;
+        itemName.classList.add("small-item-name");
+
+        itemDiv.appendChild(itemImage);
+        itemDiv.appendChild(itemName);
+        itemContainer.appendChild(itemDiv);
+
+        // Track how many times each item has appeared
+        if (!itemCounts[item.name]) itemCounts[item.name] = 0;
+        itemCounts[item.name]++;
     });
 
-    // Update the ED cost, total revenue, and profit/loss in the UI
+    // Sort the items based on their count (for history log)
+    const sortedItems = Object.entries(itemCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map(entry => entry[0]);
+
+    // Update the history log with sorted item names
+    historyLog.value = "";
+    sortedItems.forEach(itemName => {
+        historyLog.value += `${itemName} - Rolls: ${itemCounts[itemName]}\n`;
+    });
+
+    // Update ED cost and revenue statistics
     document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
     document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened.toLocaleString()}`;
     document.getElementById("total-revenue").textContent = `Total Revenue: ${totalRevenue.toLocaleString()}`;
 
+    // Calculate profit or loss
     const profitLoss = totalRevenue - totalEdCost;
     const profitLossElement = document.getElementById("profit-loss");
-    profitLossElement.textContent = `Profit/Loss: ${profitLoss >= 0 ? '+' : ''}${profitLoss.toLocaleString()}`;
-    profitLossElement.style.color = profitLoss >= 0 ? 'green' : 'red';
+
+    // Format profit or loss with commas
+    let formattedProfitLoss = profitLoss.toLocaleString();
+
+    // Set the text and color for profit/loss
+    if (profitLoss >= 0) {
+        profitLossElement.textContent = `Profit/Loss: +${formattedProfitLoss}`;
+        profitLossElement.style.color = 'green'; // Profit is green
+    } else {
+        profitLossElement.textContent = `Profit/Loss: ${formattedProfitLoss}`;  // No need for another negative sign
+        profitLossElement.style.color = 'red'; // Loss is red
+    }
 }
