@@ -245,25 +245,25 @@ function updateUI(items) {
     const historyLog = document.getElementById("historyLog");
     itemContainer.innerHTML = "";
 
-    items.forEach(item => {
-        const itemDiv = document.createElement("div");
-        itemDiv.classList.add("item");
+    // Only show the image and name of the single selected item
+    const selectedItem = items[0]; // Get the first item (which is the rolled item)
+    const itemDiv = document.createElement("div");
+    itemDiv.classList.add("item");
 
-        const itemImage = document.createElement("img");
-        const imagePath = loadImage(item.name);
-        if (imagePath) {
-            itemImage.src = imagePath;
-            itemImage.alt = item.name;
-        }
+    const itemImage = document.createElement("img");
+    const imagePath = loadImage(selectedItem.name);
+    if (imagePath) {
+        itemImage.src = imagePath;
+        itemImage.alt = selectedItem.name;
+    }
 
-        const itemName = document.createElement("p");
-        itemName.textContent = item.name;
-        itemName.classList.add("small-item-name");
+    const itemName = document.createElement("p");
+    itemName.textContent = selectedItem.name;
+    itemName.classList.add("small-item-name");
 
-        itemDiv.appendChild(itemImage);
-        itemDiv.appendChild(itemName);
-        itemContainer.appendChild(itemDiv);
-    });
+    itemDiv.appendChild(itemImage);
+    itemDiv.appendChild(itemName);
+    itemContainer.appendChild(itemDiv);
 
     // Update history log with all items and their counts up to the target item
     historyLog.value = "";
