@@ -184,58 +184,59 @@ if (profitLoss >= 0) {
 }
 
 let rollingInterval;
-let displayBoxesOpened = 0; // Separate counter for display
 
 function startRollingForItem() {
     const targetItemName = document.getElementById("item-select").value;
-    
-    // Reset counters for each new session
+
+    // Clear previous session stats
     totalBoxesOpened = 0;
-    displayBoxesOpened = 0; // Reset display counter
     totalEdCost = 0;
     totalRevenue = 0;
     itemCounts = {};
 
-    // Smoothly update the displayed count
-    const displayInterval = setInterval(() => {
-        if (displayBoxesOpened < totalBoxesOpened) {
-            displayBoxesOpened += Math.min(100000, totalBoxesOpened - displayBoxesOpened); // Adjust increment as needed
-            document.getElementById("total-boxes").textContent = `Boxes Opened: ${displayBoxesOpened.toLocaleString()}`;
-        }
-    }, 50); // Update every 50 milliseconds
-
     rollingInterval = setInterval(() => {
-        const batchSize = 10000000; // Roll 10 million items at a time
-        const rolledItems = Array.from({ length: batchSize }, selectRandomItem);
-        
-        totalBoxesOpened += batchSize;
-        totalEdCost += 4400000 * batchSize;
+        let foundTarget = false;
 
-        rolledItems.forEach(item => totalRevenue += item.ed);
+        // Roll in batches of 10 million for efficiency
+        for (let i = 0; i < 10000000; i++) {
+            const rolledItem = selectRandomItem();
+            totalBoxesOpened++;
+            totalEdCost += 4400000;
+            totalRevenue += rolledItem.ed; // Increment revenue with ED cost
 
-        // Check if target item is rolled
-        if (rolledItems.some(item => item.name === targetItemName)) {
-            clearInterval(rollingInterval);
-            clearInterval(displayInterval);
-            updateUI([rolledItems.find(item => item.name === targetItemName)]);
-            alert(`Target item "${targetItemName}" found after ${totalBoxesOpened.toLocaleString()} boxes!`);
+            // Update item counts
+            if (!itemCounts[rolledItem.name]) itemCounts[rolledItem.name] = 0;
+            itemCounts[rolledItem.name]++;
+
+            // Check if the rolled item is the target item
+            if (rolledItem.name === targetItemName) {
+                foundTarget = true;
+
+                // Update only the result with the found target item details
+                updateUI([rolledItem]); 
+                
+                // Stop rolling once the target item is found
+                clearInterval(rollingInterval);
+                alert(`Target item "${targetItemName}" found after ${totalBoxesOpened} boxes!`);
+                break;
+            }
+
+            // Periodically update the UI with counters for every 100,000 rolls
+            if (i % 100000 === 0) {
+                document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened.toLocaleString()}`;
+                document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
+                document.getElementById("total-revenue").textContent = `Total Revenue: ${totalRevenue.toLocaleString()}`;
+
+                // Calculate profit or loss
+                const profitLoss = totalRevenue - totalEdCost;
+                const profitLossElement = document.getElementById("profit-loss");
+                let formattedProfitLoss = profitLoss.toLocaleString();
+                profitLossElement.textContent = `Profit/Loss: ${profitLoss >= 0 ? '+' : ''}${formattedProfitLoss}`;
+                profitLossElement.style.color = profitLoss >= 0 ? 'green' : 'red';
+            }
         }
 
-        // Update the live counters
-        document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
-        document.getElementById("total-revenue").textContent = `Total Revenue: ${totalRevenue.toLocaleString()}`;
-
-        // Calculate and display profit/loss
-        const profitLoss = totalRevenue - totalEdCost;
-        const profitLossElement = document.getElementById("profit-loss");
-        let formattedProfitLoss = profitLoss.toLocaleString();
-
-        if (profitLoss >= 0) {
-            profitLossElement.textContent = `Profit/Loss: +${formattedProfitLoss}`;
-            profitLossElement.style.color = 'green';
-        } else {
-            profitLossElement.textContent = `Profit/Loss: ${formattedProfitLoss}`;
-            profitLossElement.style.color = 'red';
-        }
-    }, 1); // Background rolling every millisecond
+        // Stop if the target item is found
+        if (foundTarget) clearInterval(rollingInterval);
+    }, 1); // High-speed rolling without UI lag
 }
