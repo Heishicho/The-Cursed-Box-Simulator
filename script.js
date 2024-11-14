@@ -221,8 +221,8 @@ function startRollingForItem() {
                 break;
             }
 
-            // Periodically update the UI with counters for every 1,000,000 rolls
-            if (i % 1000000 === 0) {
+            // Periodically update the UI with counters for every 100,000 rolls
+            if (i % 100000 === 0) {
                 document.getElementById("total-boxes").textContent = `Boxes Opened: ${totalBoxesOpened.toLocaleString()}`;
                 document.getElementById("total-ed-cost").textContent = `Total ED Cost: ${totalEdCost.toLocaleString()}`;
                 document.getElementById("total-revenue").textContent = `Total Revenue: ${totalRevenue.toLocaleString()}`;
